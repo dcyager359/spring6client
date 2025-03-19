@@ -23,14 +23,14 @@ import java.util.UUID;
 @Service
 public class BeerClientImpl implements BeerClient{
 
+    private static final String URL_PATH = "/api/v1/beer";
     private final RestTemplateBuilder restTemplateBuilder;
-
 
     @Override
     public Page<BeerDTO> listBeers() {
 
         ResponseEntity<String> stringResponse =
-                restTemplateBuilder.build().getForEntity("http://localhost:8080/api/v1/beer", String.class);
+                restTemplateBuilder.build().getForEntity(URL_PATH, String.class);
 
         ObjectMapper mapper = new ObjectMapper();
         List<BeerDTO> beerList = new ArrayList<>();
