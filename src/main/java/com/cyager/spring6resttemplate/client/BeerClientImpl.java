@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -27,10 +28,16 @@ public class BeerClientImpl implements BeerClient{
     private final RestTemplateBuilder restTemplateBuilder;
 
     @Override
-    public Page<BeerDTO> listBeers() {
+    public Page<BeerDTO> listBeers(String beerName) {
+
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromPath(URL_PATH);
+
+        if (beerName != null) {
+            uriComponentsBuilder.queryParam("beerName", beerName);
+        }
 
         ResponseEntity<String> stringResponse =
-                restTemplateBuilder.build().getForEntity(URL_PATH, String.class);
+                restTemplateBuilder.build().getForEntity(uriComponentsBuilder.toUriString(), String.class);
 
         ObjectMapper mapper = new ObjectMapper();
         List<BeerDTO> beerList = new ArrayList<>();

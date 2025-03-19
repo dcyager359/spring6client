@@ -15,13 +15,21 @@ class BeerClientImplTest {
     BeerClientImpl beerClient;
 
     @Test
-    void listBeers() {
-        Page<BeerDTO> resultPage = beerClient.listBeers();
+    void listBeersNoBeerName() {
+        Page<BeerDTO> resultPage = beerClient.listBeers(null);
 
         assertThat(resultPage.getContent().size()).isEqualTo(25);
-        assertThat(resultPage.getTotalElements()).isEqualTo(2413);
+        assertThat(resultPage.getTotalElements()).isEqualTo(2413L);
         assertThat(resultPage.getSize()).isEqualTo(25);
-
-
     }
+
+    @Test
+    void listBeersWithBeerName() {
+        Page<BeerDTO> resultPage = beerClient.listBeers("Lager");
+
+        assertThat(resultPage.getContent().size()).isEqualTo(25);
+        assertThat(resultPage.getTotalElements()).isEqualTo(110L);
+        assertThat(resultPage.getSize()).isEqualTo(25);
+    }
+
 }
